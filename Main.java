@@ -24,7 +24,7 @@ public class Main {
         List<Player> players = new ArrayList<>();
         System.out.println("ENTER ALL " + (dimension - 1) +" PLAYER DETAILS");
         for (int i = 1; i < dimension; ++i){
-            System.out.println("ENTER PLAYER:" + i + " 2DETAILS");
+            System.out.println("ENTER PLAYER:" + i + " DETAILS");
             System.out.println("Enter Name");
             String name = scanner.next();
             System.out.println("Enter Symbol");
@@ -50,5 +50,19 @@ public class Main {
                 new ColWinningStrategy(),
                 new RowWinningStrategy());
         Game game = gameController.startGame(dimension, players, winningStrategies);
+        while (gameController.getGameState(game).equals(GameState.IN_PROGRESS)){
+            //1. Print Board
+            //2. Ask nextplayer to make a move.
+            //4. Ask to do Undo
+            /*
+            System.out.println("Does anyone wants to UNDO(Y/N)");
+            String undoAnswer = scanner.next();
+            if (undoAnswer.equalsIgnoreCase("Y")){
+                gameController.undo(game);
+            }
+             */
+            gameController.printBoard(game);
+            gameController.makeMove(game);
+        }
     }
 }

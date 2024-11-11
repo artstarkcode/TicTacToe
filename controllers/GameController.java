@@ -4,6 +4,7 @@ import TicTacToe.exceptions.BotCountException;
 import TicTacToe.exceptions.DuplicatePlayerSymbolException;
 import TicTacToe.exceptions.PlayersAndDimensionCountMismatchException;
 import TicTacToe.models.Game;
+import TicTacToe.models.GameState;
 import TicTacToe.models.Player;
 import TicTacToe.strategies.winningStrategies.WinningStrategy;
 
@@ -18,16 +19,20 @@ public class GameController {
                 .setWinningStrategies(winningStrategies)
                 .build();
     }
-    void makeMove(Game game){
 
+    public void undo(Game game){
+        //game.undo();
     }
-    void checkState(Game game){
-
+    public GameState getGameState(Game game){
+        return game.getGameState();
     }
     void getWinner(Game game){
 
     }
-    void printBoard(Game game){
-
+    public void printBoard(Game game){
+        game.printBoard();
+    }
+    public void makeMove(Game game){
+        game.makeMove();
     }
 }

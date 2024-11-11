@@ -5,10 +5,7 @@ import TicTacToe.exceptions.DuplicatePlayerSymbolException;
 import TicTacToe.exceptions.PlayersAndDimensionCountMismatchException;
 import TicTacToe.strategies.winningStrategies.WinningStrategy;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Game {
     private List<Player> players;
@@ -17,9 +14,9 @@ public class Game {
     private List<Move> moves;
     private GameState gameState;
     private List<WinningStrategy> winningStrategies;
+    private Scanner scanner = new Scanner(System.in);
 
-    private Game() {
-    }
+    private Game() {}
 
     public List<Player> getPlayers() {
         return players;
@@ -37,11 +34,11 @@ public class Game {
         this.board = board;
     }
 
-    public int getnextPlayerIndex() {
+    public int getNextPlayerIndex() {
         return nextPlayerIndex;
     }
 
-    public void setnextPlayerIndex(int nextPlayerIndex) {
+    public void setNextPlayerIndex(int nextPlayerIndex) {
         this.nextPlayerIndex = nextPlayerIndex;
     }
 
@@ -80,8 +77,6 @@ public class Game {
             winningStrategies = new ArrayList<>();
             dimension = 0;
         }
-
-        ;
 
         public Builder setDimension(int dimension) {
             this.dimension = dimension;
@@ -141,5 +136,35 @@ public class Game {
 
     public static Builder getBuilder() {
         return new Builder();
+    }
+    public void printBoard(){
+        board.printBoard();
+    }
+    private boolean checkWinner(Move currentMove){
+        for (WinningStrategy winningStrategy : winningStrategies){
+            if (winningStrategy.checkWinner(this.board, currentMove)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public void makeMove(){
+        System.out.println("It is Player: " + players.get(nextPlayerIndex).getName() + "'s turn. Please make a move");
+        Move currentMove = players.get(nextPlayerIndex).makeMove(board);
+        if (currentMove != null){
+            moves.add(currentMove);
+            nextPlayerIndex = (nextPlayerIndex + 1) % (board.getSize() - 1);
+            if (checkWinner(currentMove)){
+                gameState = GameState.WIN;
+                System.out.println(currentMove.getPlayer().getName() + " has WON the game. Congratulations!!!");
+                board.printBoard();
+            }
+            else if (moves.size() == board.getSize() * board.getSize()){
+                gameState = GameState.DRAWN;
+            }
+        }
+        else{
+            System.out.println("Invalid move. Please try again.");
+        }
     }
 }
