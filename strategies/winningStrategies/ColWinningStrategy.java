@@ -25,4 +25,15 @@ public class ColWinningStrategy implements WinningStrategy {
         }
         return false;
     }
+
+    public void handleUndo(Board board, Move move){
+        int col = move.getCell().getCol();
+        if (colMap.containsKey(col)){
+            Map<Symbol, Integer> currColMap = colMap.get(col);
+            Symbol symbol = move.getPlayer().getSymbol();
+            if (currColMap.containsKey(symbol)){
+                currColMap.put(symbol, currColMap.get(symbol) - 1);
+            }
+        }
+    }
 }

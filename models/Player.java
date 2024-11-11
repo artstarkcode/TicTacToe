@@ -57,9 +57,10 @@ public class Player {
         return false;
     }
     public Move makeMove(Board board){
+        System.out.println("It is Player: " + getName() + "'s turn. Please make a move.");
         System.out.println("Please enter the row where you want to make move:");
         int currRow = scanner.nextInt();
-        System.out.println("Please enter the row where you want to make move:");
+        System.out.println("Please enter the col where you want to make move:");
         int currCol = scanner.nextInt();
         if (!validateMove(board, currRow, currCol)){
             System.out.println("Invalid move at row: " + currRow + ", col:" + currCol + ", Please try again");

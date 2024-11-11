@@ -23,7 +23,7 @@ public class DiagonalWinningStrategy implements WinningStrategy{
                 return true;
             }
         }
-        if (row + col == board.getSize()){
+        if (row + col == board.getSize() - 1){
             if (!rightDiagonalMap.containsKey(symbol)){
                 rightDiagonalMap.put(symbol, 0);
             }
@@ -33,5 +33,21 @@ public class DiagonalWinningStrategy implements WinningStrategy{
             }
         }
         return false;
+    }
+
+    public void handleUndo(Board board, Move move){
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+        Symbol symbol = move.getPlayer().getSymbol();
+        if (row == col) {
+            if (leftDiagonalMap.containsKey(symbol)) {
+                leftDiagonalMap.put(symbol, leftDiagonalMap.get(symbol) - 1);
+            }
+        }
+        if (row + col == board.getSize() - 1){
+            if (rightDiagonalMap.containsKey(symbol)) {
+                rightDiagonalMap.put(symbol, rightDiagonalMap.get(symbol) - 1);
+            }
+        }
     }
 }

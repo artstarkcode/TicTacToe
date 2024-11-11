@@ -21,7 +21,7 @@ public class GameController {
     }
 
     public void undo(Game game){
-        //game.undo();
+        game.undo();
     }
     public GameState getGameState(Game game){
         return game.getGameState();

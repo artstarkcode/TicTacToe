@@ -14,6 +14,7 @@ public class Bot extends Player{
 
     @Override
     public Move makeMove(Board board){
+        System.out.println("Bot Player: " + getName() + " is making a move.");
         Move move =  this.botPlayingStrategy.makeMove(board);
         if (move != null){
             move.getCell().setCellState(CellState.FILLED);

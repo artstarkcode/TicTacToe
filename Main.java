@@ -29,12 +29,12 @@ public class Main {
             String name = scanner.next();
             System.out.println("Enter Symbol");
             char symbol = scanner.next().charAt(0);
-            System.out.println("Enter Player Type");
+            System.out.println("Enter Player Type (human/bot)");
             String playerType = scanner.next();
             if (playerType.equalsIgnoreCase("HUMAN")){
                 players.add(new Player((long) i, name, new Symbol(symbol), PlayerType.HUMAN));
             } else {
-                System.out.println("Enter Bot Difficulty Level!");
+                System.out.println("Enter Bot Difficulty Level!(easy/hard)");
                 String difficultyLevel = scanner.next();
                 BotDifficultyLevel botDifficultyLevelType;
                 if (difficultyLevel.equalsIgnoreCase("HARD")){
@@ -54,14 +54,13 @@ public class Main {
             //1. Print Board
             //2. Ask nextplayer to make a move.
             //4. Ask to do Undo
-            /*
+            gameController.printBoard(game);
             System.out.println("Does anyone wants to UNDO(Y/N)");
             String undoAnswer = scanner.next();
             if (undoAnswer.equalsIgnoreCase("Y")){
                 gameController.undo(game);
+                continue;
             }
-             */
-            gameController.printBoard(game);
             gameController.makeMove(game);
         }
     }

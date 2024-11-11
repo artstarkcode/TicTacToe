@@ -21,8 +21,20 @@ public class RowWinningStrategy implements WinningStrategy {
         }
         currRowMap.put(symbol, currRowMap.get(symbol) + 1);
         if (currRowMap.get(symbol).equals(board.getSize())){
+
             return true;
         }
         return false;
+    }
+
+    public void handleUndo(Board board, Move move){
+        int row = move.getCell().getRow();
+        if (rowMap.containsKey(row)){
+            Map<Symbol, Integer> currRowMap = rowMap.get(row);
+            Symbol symbol = move.getPlayer().getSymbol();
+            if (currRowMap.containsKey(symbol)){
+                currRowMap.put(symbol, currRowMap.get(symbol) - 1);
+            }
+        }
     }
 }

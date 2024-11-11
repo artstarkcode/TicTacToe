@@ -15,6 +15,15 @@ public class Game {
     private GameState gameState;
     private List<WinningStrategy> winningStrategies;
     private Scanner scanner = new Scanner(System.in);
+    private Player winner;
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
 
     private Game() {}
 
@@ -149,22 +158,39 @@ public class Game {
         return false;
     }
     public void makeMove(){
-        System.out.println("It is Player: " + players.get(nextPlayerIndex).getName() + "'s turn. Please make a move");
         Move currentMove = players.get(nextPlayerIndex).makeMove(board);
         if (currentMove != null){
             moves.add(currentMove);
             nextPlayerIndex = (nextPlayerIndex + 1) % (board.getSize() - 1);
             if (checkWinner(currentMove)){
                 gameState = GameState.WIN;
+                setWinner(currentMove.getPlayer());
                 System.out.println(currentMove.getPlayer().getName() + " has WON the game. Congratulations!!!");
                 board.printBoard();
             }
             else if (moves.size() == board.getSize() * board.getSize()){
                 gameState = GameState.DRAWN;
+                System.out.println("Game was drawn with no winners!!! Exiting ...");
             }
         }
         else{
             System.out.println("Invalid move. Please try again.");
+        }
+    }
+    public void undo(){
+        if (!moves.isEmpty()){
+            Move lastMove = moves.getLast();
+            Cell lastCell = lastMove.getCell();
+            lastCell.setCellState(CellState.EMPTY);
+            lastCell.setPlayer(null);
+            for (WinningStrategy winningStrategy : winningStrategies){
+                winningStrategy.handleUndo(board, lastMove);
+            }
+            nextPlayerIndex = ((nextPlayerIndex - 1) + players.size()) % players.size();
+            moves.removeLast();
+        }
+        else{
+            System.out.println("There are no moves to Undo!");
         }
     }
 }
